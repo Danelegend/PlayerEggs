@@ -1,0 +1,4 @@
+name: PlayerEggs
+version: '${project.version}'
+main: me.danelegend.playereggs.PlayerEggs
+api-version: 1.18
