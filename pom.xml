@@ -68,23 +68,18 @@
     </repositories>
 
     <dependencies>
+        <!--        1.16.1 dependencies-->
+
+        <!--        1.15 - 1.15.2 dependencies-->
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
             <version>1.15.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>org.jetbrains</groupId>
-            <artifactId>annotations</artifactId>
-            <version>16.0.2</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jetbrains</groupId>
-            <artifactId>annotations</artifactId>
-            <version>16.0.2</version>
-            <scope>provided</scope>
-        </dependency>
+
+
+        <!--        1.14 - 1.14.4 dependencies-->
+
     </dependencies>
 </project>
