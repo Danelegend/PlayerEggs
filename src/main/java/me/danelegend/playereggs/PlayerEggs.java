@@ -1,5 +1,6 @@
 package me.danelegend.playereggs;
 
+import me.danelegend.playereggs.egglistener.PlayerEggListener_1_15_2;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -21,8 +22,24 @@ public final class PlayerEggs extends JavaPlugin {
         // Register the command
         Bukkit.getPluginCommand("playeregg").setExecutor(new PlayerEggCmd(this));
 
+        // Check the spigot server version
+        String version;
+
+        try {
+            version = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            this.getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+
+        System.out.println(version);
+
+        if (version.equals("v1_15_R1")) {
+            Bukkit.getPluginManager().registerEvents(new PlayerEggListener_1_15_2(this), this);
+        }
+
         // Register the listeners
-        Bukkit.getPluginManager().registerEvents(new PlayerEggListener(this), this);
+
 
         logger.info("Plugin Loaded");
     }

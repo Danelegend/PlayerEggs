@@ -1,26 +1,25 @@
-package me.danelegend.playereggs;
+package me.danelegend.playereggs.egglistener;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
+import me.danelegend.playereggs.PlayerEggs;
 import net.minecraft.server.v1_15_R1.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Server;
 import org.bukkit.craftbukkit.v1_15_R1.CraftServer;
 import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerEggThrowEvent;
 
 import java.util.UUID;
 
-
-public class PlayerEggListener implements Listener {
+public class PlayerEggListener_1_15_2 implements PlayerEggListener {
 
     private PlayerEggs plugin;
 
-    public PlayerEggListener(PlayerEggs plugin) {
+    public PlayerEggListener_1_15_2(PlayerEggs plugin) {
         this.plugin = plugin;
     }
 
@@ -71,7 +70,5 @@ public class PlayerEggListener implements Listener {
             ((CraftPlayer) player).getHandle().playerConnection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, npc));
             ((CraftPlayer) player).getHandle().playerConnection.sendPacket(new PacketPlayOutNamedEntitySpawn(npc));
         }
-
     }
-
 }
