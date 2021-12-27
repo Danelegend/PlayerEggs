@@ -1,4 +1,8 @@
 name: PlayerEggs
 version: '${project.version}'
 main: me.danelegend.playereggs.PlayerEggs
-api-version: 1.18
+author: Danelegend
+api-version: 1.15
+commands:
+  playeregg:
+    description: Gives a user a egg to spawn another user
