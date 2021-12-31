@@ -1,4 +1,4 @@
-package me.danelegend.playereggs.egglistener;
+package me.danelegend.playereggs.listener;
 
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerEggThrowEvent;

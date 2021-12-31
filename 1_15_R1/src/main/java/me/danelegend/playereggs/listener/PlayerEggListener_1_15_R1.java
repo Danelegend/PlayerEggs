@@ -1,18 +1,22 @@
-package me.danelegend.playereggs.egglistener;
+package me.danelegend.playereggs.listener;
+
+import me.danelegend.playereggs.managers.PlayerSkinManager;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
-import me.danelegend.playereggs.PlayerEggs;
 import net.minecraft.server.v1_15_R1.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_15_R1.CraftServer;
 import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
-
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerEggThrowEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 import java.util.ArrayList;
@@ -20,32 +24,54 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-public class PlayerEggListener_1_15_2 implements PlayerEggListener {
-    private PlayerEggs plugin;
+public class PlayerEggListener_1_15_R1 implements PlayerEggListener {
     private List<EntityPlayer> npcs = new ArrayList<>();
     private HashMap<EntityPlayer, Player> distances = new HashMap<>();
 
-    public PlayerEggListener_1_15_2(PlayerEggs plugin) {
-        this.plugin = plugin;
+    private HashMap<Player, String> parser = new HashMap<>();
+
+    private PlayerSkinManager psm;
+
+    public PlayerEggListener_1_15_R1(PlayerSkinManager psm) {
+        this.psm = psm;
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onEggThrowInitial(PlayerInteractEvent e) {
+        if (e.getItem() == null || !e.getItem().getType().equals(Material.EGG)) {
+            return;
+        }
+
+        if (!(e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.RIGHT_CLICK_BLOCK))) {
+            return;
+        }
+
+        String eggName = ChatColor.stripColor(e.getItem().getItemMeta().getDisplayName());
+
+        if (!eggName.contains(" Spawn Egg")) {
+            parser.put(e.getPlayer(), null);
+            return;
+        }
+
+        String skinName = eggName.replace(" Spawn Egg", "");
+
+        parser.put(e.getPlayer(), skinName);
     }
 
     @EventHandler
     public void onEggThrow(PlayerEggThrowEvent e) {
-        // Get the display name of the egg with no colors on it
-        String eggName = ChatColor.stripColor(e.getEgg().getItem().getItemMeta().getDisplayName());
+        // Get the skin name of the egg thrown
+        String skinName = parser.get(e.getPlayer());
 
         // If the egg is not of the form we want, do not perform any of this logic
-        if (!eggName.contains(" Spawn Egg")) {
+        if (skinName == null) {
             return;
         }
 
         e.setHatching(false);
 
-        // Get the name of the player whose skin we want to get
-        String skinName = eggName.replace(" Spawn Egg", "");
-
         // Get the texture value and signature
-        String[] skin = plugin.getPlayerSkinManager().getPlayerTexture(skinName);
+        String[] skin = psm.getPlayerTexture(skinName);
 
         // If skin is null, then the inputted player does not exist.
         if (skin == null) {
@@ -60,7 +86,7 @@ public class PlayerEggListener_1_15_2 implements PlayerEggListener {
         MinecraftServer server = ((CraftServer) Bukkit.getServer()).getServer();
 
         // Create a new profile for the user that we want to spawn in
-        GameProfile profile = new GameProfile(UUID.randomUUID(), plugin.getPlayerSkinManager().getActualPlayerName(skinName));
+        GameProfile profile = new GameProfile(UUID.randomUUID(), psm.getActualPlayerName(skinName));
 
         // Give the profile the appropriate skin
         profile.getProperties().put("textures", new Property("textures", skin[0], skin[1]));
@@ -98,7 +124,7 @@ public class PlayerEggListener_1_15_2 implements PlayerEggListener {
             if ((dist < getPlayerDistanceFromNPC(distances.get(npc), npc) || p.equals(distances.get(npc))) && dist < 25) {
                 distances.replace(npc, p);
 
-               npcLookAtPlayer(p, npc);
+                npcLookAtPlayer(p, npc);
             }
         }
     }

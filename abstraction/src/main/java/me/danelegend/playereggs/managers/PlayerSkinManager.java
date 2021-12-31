@@ -1,4 +1,4 @@
-package me.danelegend.playereggs;
+package me.danelegend.playereggs.managers;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -7,16 +7,15 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.logging.Logger;
 
 public class PlayerSkinManager {
 
     private HashMap<String, String[]> playerSkins;
     private HashMap<String, String> actualPlayerNames;
-    private PlayerEggs plugin;
 
 
-    public PlayerSkinManager(PlayerEggs plugin) {
-        this.plugin = plugin;
+    public PlayerSkinManager() {
         this.playerSkins = new HashMap<>();
         this.actualPlayerNames = new HashMap<>();
     }
@@ -60,12 +59,11 @@ public class PlayerSkinManager {
             playerSkins.put(name, skin);
             actualPlayerNames.put(name, actualName);
         } catch (IOException e) {
-            plugin.getLogger().info("[PlayerEggs]: Could not retrieve player skin. Are you connected to the internet");
+            Logger logger = Logger.getLogger("Minecraft");
+
+            logger.info("[PlayerEggs]: Could not retrieve player skin. Are you connected to the internet");
             e.printStackTrace();
-            return;
         }
     }
-
-
 
 }
