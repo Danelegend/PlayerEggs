@@ -1,5 +1,6 @@
 package me.danelegend.playereggs;
 
+import me.danelegend.playereggs.listener.PlayerEggListener_1_14_R1;
 import me.danelegend.playereggs.listener.PlayerEggListener_1_15_R1;
 import me.danelegend.playereggs.managers.PlayerSkinManager;
 import org.bukkit.Bukkit;
@@ -36,6 +37,8 @@ public final class PlayerEggs extends JavaPlugin {
         // Register the listeners
         if (version.equals("v1_15_R1")) {
             Bukkit.getPluginManager().registerEvents(new PlayerEggListener_1_15_R1(psm), this);
+        } else if (version.equals("v1_14_R1")) {
+            Bukkit.getPluginManager().registerEvents(new PlayerEggListener_1_14_R1(psm), this);
         }
 
         logger.info("Plugin Loaded");
