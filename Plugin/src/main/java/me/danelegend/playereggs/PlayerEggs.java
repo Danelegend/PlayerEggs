@@ -1,7 +1,7 @@
 package me.danelegend.playereggs;
 
-import me.danelegend.playereggs.listener.PlayerEggListener_1_14_R1;
-import me.danelegend.playereggs.listener.PlayerEggListener_1_15_R1;
+import me.danelegend.playereggs.listener.*;
+import me.danelegend.playereggs.listener.Playereggs.PlayerEggListener_1_12_R1;
 import me.danelegend.playereggs.managers.PlayerSkinManager;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -39,6 +39,17 @@ public final class PlayerEggs extends JavaPlugin {
             Bukkit.getPluginManager().registerEvents(new PlayerEggListener_1_15_R1(psm), this);
         } else if (version.equals("v1_14_R1")) {
             Bukkit.getPluginManager().registerEvents(new PlayerEggListener_1_14_R1(psm), this);
+        } else if (version.equals("v1_13_R1")) {
+            // Version 13 not working?
+            //Bukkit.getPluginManager().registerEvents(new PlayerEggListener_1_13_R1(psm), this);
+        } else if (version.equals("v1_12_R1")) {
+            Bukkit.getPluginManager().registerEvents(new PlayerEggListener_1_12_R1(psm), this);
+        } else if (version.equals("v1_16_R1")) {
+            Bukkit.getPluginManager().registerEvents(new PlayerEggListener_1_16_R1(psm), this);
+        } else if (version.equals("v1_16_R2")) {
+            Bukkit.getPluginManager().registerEvents(new PlayerEggListener_1_16_R2(psm), this);
+        } else if (version.equals("v1_16_R3")) {
+            Bukkit.getPluginManager().registerEvents(new PlayerEggListener_1_16_R3(psm), this);
         }
 
         logger.info("Plugin Loaded");
